@@ -1,0 +1,312 @@
+% vim: expandtab softtabstop=2 shiftwidth=2 spell
+
+\section{Introduction}
+\subsection{What is machine learning}
+\begin{itemize}
+  \item Automating Automation
+  \item Getting Computers to program themselves
+  \item Writing software is the bottleneck
+  \item Let the data do the work!
+\end{itemize}
+
+\subsection{Machine Learning in a nutshell}
+\begin{itemize}
+  \item Tens of thousands of machine learning algorithms
+  \item Hundreds of new algorithms every year
+  \item Every machine learning algorithm has three components
+  \begin{itemize}
+    \item Representation
+    \item Evaluation
+    \item Optimization
+  \end{itemize}
+\end{itemize}
+
+\subsection{Representation}
+\begin{itemize}
+  \item Decision Trees
+  \item Sets of Rules/Logic Programs
+  \item Instances
+  \item Graphical Models (Bayes/Markov nets)
+  \item Neural Networks
+  \item Support Vector Machines
+  \item Model Ensembles
+\end{itemize}
+
+\subsection{Evaluation}
+\begin{itemize}
+  \item Accuracy
+  \item Precision and recall
+  \item Squared error
+  \item Likelihood
+  \item Posterior probability
+  \item Cost / Utility
+  \item Margin
+  \item Entropy
+  \item K-L divergence
+\end{itemize}
+
+\subsection{Optimization}
+\begin{itemize}
+  \item Combinatorial Optimization (eg. Greedy Search)
+  \item Convex Optimization (eg. Gradient Descent)
+  \item Constrained Optimization (eg. Linear Programming)
+\end{itemize}
+
+\subsection{Types of Learning}
+\begin{itemize}
+  \item Supervised (inductive) - training data includes desired outputs
+  \item Unsupervised - training data does not include desired outputs
+  \item Semi-supervised - training data has a subset of desired outputs
+  \item Reinforcement - rewards from sequence of actions
+\end{itemize}
+
+\subsection{Inductive Learning}
+\begin{itemize}
+  \item \textbf{Given} examples of a function (X, F(X))
+  \item \textbf{Predict} function F(X) for new examples of X
+  \begin{itemize}
+    \item Discrete F(X): Classification
+    \item Continuous F(X): Regression
+    \item F(X)=Probability(X): Probability estimation
+  \end{itemize}
+\end{itemize}
+
+\subsection{Supervised Versus Unsupervised Learning}
+\begin{itemize}
+  \item Supervised Learning
+  \begin{itemize}
+    \item Decision tree induction
+    \item Rule induction
+    \item Instance-based learning
+    \item Bayesian Learning
+    \item Neural Networks
+    \item Support Vector Machines
+    \item Model Ensembles
+    \item Learning Theory
+  \end{itemize}
+  \item Unsupervised Learning
+  \begin{itemize}
+    \item Clustering
+    \item Dimensionality Reduction
+  \end{itemize}
+\end{itemize}
+Formal Definition of Machine Learning by T. Mitchell is that ``A computer program is said to learn experience E with respect to some class of tasks T and performance measure P, if its performance at tasks T as measured by P improves with experience E.'' In other words, it improves performance via experience.
+
+\subsection{Appropriate applications for supervised learning}
+\begin{itemize}
+  \item Situations where:
+  \begin{itemize}
+    \item There is no human expert
+    \item Humans can perform the task but cannot describe how they do it
+    \item The desired function is changing frequently
+    \item Each user needs a customized function
+  \end{itemize}
+\end{itemize}
+
+\subsection{Supervised Learning}
+\begin{itemize}
+  \item \textbf{Given:} Training examples $\langle x,f(x)\rangle$ for some unknown function f
+  \item \textbf{Find:} A good approximation to f
+\end{itemize}
+Example Applications
+\begin{itemize}
+  \item Credit risk assessment
+  \item[] x: Properties of customer and proposed purchase.
+  \item[] f(x): Approved purchase or not
+  \item Disease Diagnosis
+  \item[] x: Properties of patient (symptoms, lab tests)
+  \item[] f(x): Disease (or maybe, recommended therapy)
+  \item Face recognition
+  \item[] x: Bitmap picture of person's face
+  \item[] f(x): Name of the person
+  \item Automatic Steering
+  \item[] x: Bitmap picture of road surface in front of car
+  \item[] f(x): Degrees to turn the steering wheel
+\end{itemize}
+
+\subsection{Appropriate Applications for Supervised Learning}
+\begin{itemize}
+  \item Situations where there is no human expert
+  \item[]x: Bond graph for a new molecule
+  \item[]f(x): Predicted binding strength to AIDS protease molecule
+  \item Situations where humans can perform the task but cannot describe how they do it
+  \item[]x: Bitmap picture of hand--written character
+  \item[]f(x): Ascii code of the character
+  \item Situations where the desired function is changing frequently
+  \item[]x: Description of stock prices and trade for the last 30 days
+  \item[]f(x): Recommended stock transaction
+  \item Situations where each user needs a customized function $f$
+  \item[]x: looming email message
+  \item[]f(x): Importance score for presenting to user (or deleting without presenting)
+\end{itemize}
+
+\subsection{A Learning Problem}
+Suppose we have a black box function, that takes four inputs, x1 x2 x3 x4, and outputs a single value, y
+
+\begin{table}[h!]
+  \begin{center}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    display columns/0/.style={
+      column name=$Example$,
+      column type/.add={}{|}},
+    display columns/1/.style={
+      column name=$x1$},
+    display columns/2/.style={
+      column name=$x2$},
+    display columns/3/.style={
+      column name=$x3$},
+    display columns/4/.style={
+      column name=$x4$,
+      column type/.add={}{|}},
+    display columns/5/.style={
+      column name=$y$},
+    every head row/.style={
+      before row={\hline},
+      after row={\hline}},
+    every last row/.style={after row=\hline}, ]
+    {src/introduction/A-Learning-Problem.csv}
+  \end{center}
+\end{table}
+
+\subsection{Hypothesis Spaces}
+\begin{itemize}
+  \item Complete Ignorance. There are $2^{16}=65536$ possible boolean functions over four input features. We cannot figure out which one is correct until we've seen every possible input--output combination. After 7 examples, we still have $2^{8}$ possibilities.
+\end{itemize}
+\begin{table}[h!]
+  \begin{center}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    display columns/0/.style={
+      column name=$x1$},
+    display columns/1/.style={
+      column name=$x2$},
+    display columns/2/.style={
+      column name=$x3$},
+    display columns/3/.style={
+      column name=$x4$,
+      column type/.add={}{|}},
+    display columns/4/.style={
+      column name=$y$},
+    every head row/.style={
+      before row={\hline},
+      after row={\hline}},
+    every last row/.style={after row=\hline},
+    header=false, ]
+    {src/introduction/Hypothesis-Spaces.csv}
+  \end{center}
+\end{table}
+\subsection{Hypothesis Spaces 2}
+\begin{itemize}
+  \item \textbf{Simple Rules.} There are only 16 simple conjunctive rules.
+\end{itemize}
+
+\begin{table}[h!]
+  \begin{center}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    display columns/0/.style={
+      column name=$Example$,
+      column type/.add={}{|}},
+    display columns/1/.style={
+      column name=$x1$},
+    display columns/2/.style={
+      column name=$x2$},
+    display columns/3/.style={
+      column name=$x3$},
+    display columns/4/.style={
+      column name=$x4$,
+      column type/.add={}{|}},
+    display columns/5/.style={
+      column name=$y$},
+    every head row/.style={
+      before row={\hline},
+      after row={\hline}},
+    every last row/.style={after row=\hline}, ]
+    {src/introduction/A-Learning-Problem.csv}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+  \begin{tabular}{|l | l|} \hline
+  Rule & Counterexample \\\hline
+  $\Rightarrow y$ & 1 \\
+  $x_{1} \Rightarrow y$ & 3 \\
+  $x_{2} \Rightarrow y$ & 2 \\
+  $x_{3} \Rightarrow y$ & 1 \\
+  $x_{4} \Rightarrow y$ & 7 \\
+  $x_{1} \wedge x_{2} \Rightarrow y$ & 3 \\
+  $x_{1} \wedge x_{3} \Rightarrow y$ & 3 \\
+  $x_{1} \wedge x_{4} \Rightarrow y$ & 3 \\
+  $x_{2} \wedge x_{3} \Rightarrow y$ & 3 \\
+  $x_{2} \wedge x_{4} \Rightarrow y$ & 3 \\
+  $x_{3} \wedge x_{4} \Rightarrow y$ & 4 \\
+  $x_{1} \wedge x_{2} \wedge x_{3} \Rightarrow y$ & 3 \\
+  $x_{1} \wedge x_{2} \wedge x_{4} \Rightarrow y$ & 3 \\
+  $x_{1} \wedge x_{3} \wedge x_{4} \Rightarrow y$ & 3 \\
+  $x_{2} \wedge x_{3} \wedge x_{4} \Rightarrow y$ & 3 \\
+  $x_{1} \wedge x_{2} \wedge x_{3} \wedge x_{4} \Rightarrow y$ & 3 \\\hline
+  \end{tabular}
+  \end{center}
+\end{table}
+No simple rule explains the data. The same is true for simple clauses.
+\clearpage
+
+\subsection{Two Strategies for Machine Learning}
+\begin{itemize}
+  \item Develop Languages for Expressing Prior Knowledge: Rule grammars and stochastic models.
+  \item Develop Flexible Hypothesis Space: Noted collections of hypotheses. Decision trees, rules, neural networks, cases.
+\end{itemize}
+In either case
+\begin{itemize}
+  \item Develop Algorithms for Finding a Hypothesis that Fits the Data
+\end{itemize}
+
+\subsection{Terminology}
+\begin{itemize}
+  \item Training example - An example of the form $\langle x, f(x)\rangle$
+  \item Target Function (target concept) - The true function $f$
+  \item Hypothesis - A Proposed function $h$ believed to be similar to $f$
+  \item Concept - A boolean function. Examples for which $f(x)=1$ are called \textbf{positive examples} or \textbf{positive instances} of the concept. Examples for which $f(x)=0$ are called \textbf{negative examples} or \textbf{negative instances}
+  \item Classifier - A discrete value function. The possible values $f(x)\in{1,...,K}$ are called the \textbf{classes} or \textbf{class labels}
+  \item Hypothesis space - the spaces of all hypotheses that can, in principal, be output by a learning algorithm.
+  \item Version Space - the space of all hypotheses in the hypothesis space that have not yet been ruled out by a training example.
+\end{itemize}
+
+\subsection{A Framework for Hypothesis Spaces}
+\begin{itemize}
+  \item Size: Does the hypothesis space have a \textbf{fixed size} or \textbf{variable size}? Fixed-size spaces are easier to understand, but variable-size spaces are generally more useful. Variable-sized spaces introduce the problem of overfitting.
+  \item Randomness: Is each hypothesis \textbf{deterministic} or \textbf{stochastic}? This affect how we evalue the hypotheses. With a deterministic hypothesis, a training example is either \emph{consistent} (correctly predicted) or \emph{inconsistent} incorrectly predicted). With a stochastic hypothesis, a training example is \emph{more likely} or \emph{less likely}
+  \item Parameterization: Is each hypothesis described by a set of \textbf{symbolic} (discrete) choices or is it described by a set of \textbf{continuous} parameters? If both are required, we the hypotheses space has a \textbf{mixed} parameterizations. Discrete parameters must be found by combinatorial search methods. Continuous parameters must be found by numerical search methods.
+\end{itemize}
+
+\subsection{A framework for Learning Algorithms}
+\begin{itemize}
+  \item Search Procedure
+  \item[] Direction Computation - solve the hypothesis directly
+  \item[] Local search - start with an initial hypothesis, make small improvements until a local optimum
+  \item[] Constructive search - start with an empty hypothesis, gradually add structure to it until a local optimum
+  \item Timing
+  \item[] Eager - Analyze the training data and construct an explicit hypothesis
+  \item[] Lazy - Store the training data and wait until a test data point is presented, then construct an ad hoc hypothesis to classify that one data point
+  \item Online versus Batch (for eager algorithm)
+  \item[] Online - analyze each training example as it is presented
+  \item[] Batch - collect training examples, analyze them, output a hypothesis
+\end{itemize}
+
+\subsection{Key Issues in Machine Learning}
+\begin{itemize}
+  \item What are good hypothesis spaces?
+  \item[] Which spaces have been useful in practical applications and why?
+  \item What algorithms can work with these spaces?
+  \item[] Are there general design principles for machine learning algorithms?
+  \item How can we optimize accuracy on future data points?
+  \item[] This is sometimes called the ``problem of overfitting''
+  \item How can we have confidence in the results?
+  \item[] How much training data is required to find accurate hypotheses? (the \emph{statistical question})
+  \item Are some learning problems computationally intractable?
+  \item[] (the \emph{computational question})
+  \item How can we formulate application problems as machine learning problems?
+  \item[] (the \emph{engineering question})
+\end{itemize}
